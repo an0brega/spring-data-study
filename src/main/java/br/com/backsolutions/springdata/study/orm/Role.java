@@ -6,7 +6,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.GenerationType;
 
-
 @Entity
 @Table(name = "POSITIONS")
 public class Role {

@@ -22,7 +22,7 @@ public class RoleCrudService {
         System.out.println("3 - Visualize");
         System.out.println("4 - Delete");
         System.out.print("Choice: ");
-        Integer choice = scanner.nextInt();
+        int choice = scanner.nextInt();
 
         switch (choice){
             case 1:
@@ -44,7 +44,6 @@ public class RoleCrudService {
     }
 
     private void saveRegistry(Scanner scanner){
-
         Role role = new Role();
 
         System.out.print("Role description: ");
@@ -86,7 +85,7 @@ public class RoleCrudService {
 
     private void viewRegistry(){
         Iterable<Role> roles = roleRepository.findAll();
-        roles.forEach(role -> System.out.println(role));
+        roles.forEach(System.out::println);
     }
 
     private void deleteRegistry(Scanner scanner){
