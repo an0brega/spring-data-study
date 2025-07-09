@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -91,11 +90,50 @@ public class EmployeeCrudService {
     }
 
     private void updateEmployee(Scanner scanner) {
+        try {
+            System.out.print("Employee id:");
+            Integer employeeId = scanner.nextInt();
+
+            var employeeFound = employeeRepository.findById(employeeId);
+
+            if (employeeFound.isPresent()) {
+                Employee employeeToUpdate = employeeFound.get();
+
+                System.out.print("New employee role id:");
+                int newRoleId = scanner.nextInt();
+
+                Optional<Role> roleFound = roleRepository.findById(newRoleId);
+                if (roleFound.isEmpty()) {
+                    System.out.println("Role not found!");
+                    return;
+                }
+
+                employeeToUpdate.setRole(roleFound.get());
+
+                employeeRepository.save(employeeToUpdate);
+
+                System.out.println("Updated!");
+            }
+            else
+            {
+                System.out.println("Role not found.");
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void viewEmployee() {
+        Iterable<Employee> employees = employeeRepository.findAll();
+        employees.forEach(System.out::println);
     }
 
     private void deleteEmployee(Scanner scanner) {
+        System.out.print("Id to be deleted: ");
+        int idToBeDeleted = scanner.nextInt();
+
+        employeeRepository.deleteById(idToBeDeleted);
+        System.out.println("Employee deleted");
     }
 }
