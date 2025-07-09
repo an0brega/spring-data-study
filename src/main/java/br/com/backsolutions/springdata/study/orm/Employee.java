@@ -20,6 +20,10 @@
         @JoinColumn(name = "role_id")
         private Role role;
 
+        @ManyToOne
+        @JoinColumn(name = "work_unit_id")
+        private WorkUnit workUnit;
+
         public Integer getId() {
             return id;
         }
@@ -68,6 +72,14 @@
             this.role = role;
         }
 
+        public WorkUnit getWorkUnit() {
+            return workUnit;
+        }
+
+        public void setWorkUnit(WorkUnit workUnit) {
+            this.workUnit = workUnit;
+        }
+
         @Override
         public String toString() {
             return "Employee{" +
@@ -77,6 +89,7 @@
                     ", salary=" + salary +
                     ", entryDate=" + entryDate +
                     ", role=" + role +
+                    ", workUnit=" + workUnit +
                     '}';
         }
     }

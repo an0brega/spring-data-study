@@ -2,8 +2,10 @@ package br.com.backsolutions.springdata.study.service;
 
 import br.com.backsolutions.springdata.study.orm.Employee;
 import br.com.backsolutions.springdata.study.orm.Role;
+import br.com.backsolutions.springdata.study.orm.WorkUnit;
 import br.com.backsolutions.springdata.study.repository.EmployeeRepository;
 import br.com.backsolutions.springdata.study.repository.RoleRepository;
+import br.com.backsolutions.springdata.study.repository.WorkUnitRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,10 +18,12 @@ public class EmployeeCrudService {
 
     private final EmployeeRepository employeeRepository;
     private final RoleRepository roleRepository;
+    private final WorkUnitRepository workUnitRepository;
 
-    public EmployeeCrudService(EmployeeRepository employeeRepository, RoleRepository roleRepository) {
+    public EmployeeCrudService(EmployeeRepository employeeRepository, RoleRepository roleRepository, WorkUnitRepository workUnitRepository) {
         this.employeeRepository = employeeRepository;
         this.roleRepository = roleRepository;
+        this.workUnitRepository = workUnitRepository;
     }
 
     public void initial(Scanner scanner) {
@@ -68,21 +72,30 @@ public class EmployeeCrudService {
         System.out.print("Role id: ");
         int roleId = scanner.nextInt();
 
-        Optional<Role> optionalRole = roleRepository.findById(roleId);
-        if (optionalRole.isEmpty()) {
+        Optional<Role> role = roleRepository.findById(roleId);
+        if (role.isEmpty()) {
             System.out.println("Role not found!");
             return;
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        System.out.print("Work unit id: ");
+        int workUnitId = scanner.nextInt();
 
+        Optional<WorkUnit> workUnit = workUnitRepository.findById(workUnitId);
+        if (role.isEmpty()) {
+            System.out.println("Work unit not found!");
+            return;
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dateToString = LocalDate.parse(entryDate, formatter);
 
         employee.setEmployeeName(name);
         employee.setCpf(cpf);
         employee.setSalary(salary);
         employee.setEntryDate(dateToString);
-        employee.setRole(optionalRole.get());
+        employee.setRole(role.get());
+        employee.setWorkUnit(workUnit.get());
 
         employeeRepository.save(employee);
 
