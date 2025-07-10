@@ -11,9 +11,13 @@
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Integer id;
+
         private String employeeName;
+
         private long cpf;
+
         private double salary;
+
         private LocalDate entryDate;
 
         @ManyToOne

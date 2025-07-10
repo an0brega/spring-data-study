@@ -3,6 +3,7 @@ package br.com.backsolutions.springdata.study.repository;
 import br.com.backsolutions.springdata.study.orm.Employee;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -24,7 +25,7 @@ import java.util.List;
  * SELECT e FROM Employee e WHERE e.employeeName = John
  */
 @Repository
-public interface EmployeeRepository extends CrudRepository<Employee, Integer> {
+public interface EmployeeRepository extends PagingAndSortingRepository<Employee, Integer>, CrudRepository<Employee, Integer> {
     List<Employee> findByEmployeeName(String employeeName);
 
     /**
@@ -45,5 +46,4 @@ public interface EmployeeRepository extends CrudRepository<Employee, Integer> {
      */
     @Query(value = "SELECT * FROM employees e WHERE e.entry_date >= :date", nativeQuery = true)
     List<Employee> findEntryDateGreater(LocalDate date);
-
 }

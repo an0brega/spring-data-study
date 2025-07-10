@@ -9,7 +9,9 @@ public class WorkUnit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String unitDescription;
+
     private String unitAddress;
 
     public Integer getId() {

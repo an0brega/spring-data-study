@@ -6,6 +6,10 @@ import br.com.backsolutions.springdata.study.orm.WorkUnit;
 import br.com.backsolutions.springdata.study.repository.EmployeeRepository;
 import br.com.backsolutions.springdata.study.repository.RoleRepository;
 import br.com.backsolutions.springdata.study.repository.WorkUnitRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -43,7 +47,7 @@ public class EmployeeCrudService {
                 updateEmployee(scanner);
                 break;
             case 3:
-                viewEmployee();
+                viewEmployee(scanner);
                 break;
             case 4:
                 deleteEmployee(scanner);
@@ -137,8 +141,17 @@ public class EmployeeCrudService {
         }
     }
 
-    private void viewEmployee() {
-        Iterable<Employee> employees = employeeRepository.findAll();
+    private void viewEmployee(Scanner scanner) {
+        System.out.println("Which page do you want to view?");
+        System.out.print("Page: ");
+        Integer page = scanner.nextInt();
+
+        Pageable pageable = PageRequest.of(page, 6, Sort.by(Sort.Direction.DESC,"employeeName"));
+        Page<Employee> employees = employeeRepository.findAll(pageable);
+
+        System.out.println(employees);
+        System.out.println("Current page: " + employees.getNumber());
+        System.out.println("Total elements : " + employees.getTotalElements());
         employees.forEach(System.out::println);
     }
 
