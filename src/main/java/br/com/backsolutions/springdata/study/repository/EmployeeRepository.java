@@ -1,10 +1,12 @@
 package br.com.backsolutions.springdata.study.repository;
 
 import br.com.backsolutions.springdata.study.orm.Employee;
+import br.com.backsolutions.springdata.study.orm.projections.EmployeeProjection;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
+import br.com.backsolutions.springdata.study.service.ReportService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -46,4 +48,12 @@ public interface EmployeeRepository extends PagingAndSortingRepository<Employee,
      */
     @Query(value = "SELECT * FROM employees e WHERE e.entry_date >= :date", nativeQuery = true)
     List<Employee> findEntryDateGreater(LocalDate date);
+
+    /**
+     * Filters an Employee and salary inside the repository by the id using Native Query.
+     * This method is being used with a projection inside the {@link ReportService}
+     * @return The value that matches the condition
+     */
+    @Query(value = "SELECT e.id, e.employee_name, e.salary FROM employees e", nativeQuery = true)
+    List<EmployeeProjection> findEmployeeSalary();
 }

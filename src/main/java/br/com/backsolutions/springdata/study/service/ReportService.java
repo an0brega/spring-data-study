@@ -1,6 +1,7 @@
 package br.com.backsolutions.springdata.study.service;
 
 import br.com.backsolutions.springdata.study.orm.Employee;
+import br.com.backsolutions.springdata.study.orm.projections.EmployeeProjection;
 import br.com.backsolutions.springdata.study.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,7 @@ public class ReportService {
             System.out.println("1 - Search employee by name");
             System.out.println("2 - Search employee by name, entry date and greater salary");
             System.out.println("3 - Search employee entry date");
+            System.out.println("4 - Search employee name and salary");
             System.out.print("Choice: ");
 
             int action = scanner.nextInt();
@@ -43,6 +45,10 @@ public class ReportService {
                     break;
                 case 3:
                     searchEmployeeEntryDate(scanner);
+                    system = false;
+                    break;
+                case 4:
+                    searchEmployeeSalary();
                     system = false;
                     break;
                 default:
@@ -84,5 +90,11 @@ public class ReportService {
         List<Employee> list = employeeRepository.findEntryDateGreater(localDate);
 
         System.out.println(list);
+    }
+
+    private void searchEmployeeSalary() {
+        List<EmployeeProjection> list = employeeRepository.findEmployeeSalary();
+        list.forEach(e -> System.out.println("Employee id: " + e.getId()
+                + "| name: " + e.getName() + "| salary: " + e.getSalary()));
     }
 }
